@@ -1,17 +1,15 @@
-package com.laoxu.lib_core.base;
+package com.laoxu.mvpframework.base;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.laoxu.lib_core.base.mvp.BasePresenter;
+import com.laoxu.mvpframework.base.mvp.BasePresenter;
+import com.laoxu.mvpframework.base.mvp.IBaseView;
 
-import java.util.List;
-
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity {
+public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements IBaseView {
 
     public P presenter;
     @Override
@@ -19,6 +17,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onCreate(savedInstanceState);
         setContentView(bindLayoutId());
         presenter = initPresenter();
+        if (presenter!=null){
+            presenter.attach(this);
+        }
         initView();
         initData();
 

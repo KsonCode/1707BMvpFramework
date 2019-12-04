@@ -1,4 +1,4 @@
-package com.laoxu.lib_core.base.api;
+package com.laoxu.mvpframework.base.api;
 
 public class Api {
     //url根路径

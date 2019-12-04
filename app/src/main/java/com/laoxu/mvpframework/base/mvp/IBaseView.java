@@ -1,4 +1,4 @@
-package com.laoxu.lib_core.base.mvp;
+package com.laoxu.mvpframework.base.mvp;
 
 /**
  * view层基类

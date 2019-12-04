@@ -1,93 +1,87 @@
 package com.laoxu.mvpframework.model.user;
 
-import android.os.Handler;
-import android.util.Log;
-
 import com.google.gson.Gson;
-import com.laoxu.lib_core.base.api.Api;
-import com.laoxu.lib_core.base.entity.BaseEntity;
-import com.laoxu.mvpframework.api.UserApi;
-import com.laoxu.mvpframework.contract.UserContract;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
+import com.laoxu.mvpframework.api.UserApi;
+import com.laoxu.mvpframework.app.App;
+import com.laoxu.mvpframework.base.entity.BaseEntity;
+import com.laoxu.mvpframework.contract.UserContract;
+import com.laoxu.mvpframework.network.VolleyUtils;
+
+
 import java.util.Map;
-import java.util.logging.LogRecord;
 
 public class UserModel implements UserContract.IModel {
-    Handler handler = new Handler();
+
+    /**
+     * phonee=1212121313&pwd=111111
+     * @param params
+     * @param modelCallback
+     */
     @Override
-    public void reg(final HashMap<String, Object> params, final ModelCallback modelCallback) {
+    public void reg(final Map<String, String> params, final ModelCallback modelCallback) {
 
-        new Thread(new Runnable() {
+        VolleyUtils.getInstance().doPost(params, UserApi.REG_API, new VolleyUtils.VolleyCallback() {
             @Override
-            public void run() {
-                try {
-                    URL url = new URL(UserApi.REG_API);
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setReadTimeout(5000);
-                    httpURLConnection.setConnectTimeout(5000);
-                    if (params != null && params.size() > 0) {
-                        //动态添加请求体数据
-                        for (Map.Entry<String, Object> stringObjectEntry : params.entrySet()) {
-                            httpURLConnection.addRequestProperty(stringObjectEntry.getKey(), (String) stringObjectEntry.getValue());
-                        }
-                    }
-                    System.out.println("code:" + httpURLConnection.getResponseCode());
-                    if (httpURLConnection.getResponseCode() == 200) {
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        final String result = io2String(inputStream);
-                        Log.i("w", result);
+            public void success(String response) {
+                if (modelCallback!=null){
 
-                        final BaseEntity baseEntity = new Gson().fromJson(result,BaseEntity.class);
-
-                        //切换到主线程
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                modelCallback.success(baseEntity);
-                            }
-                        });
-
-
-
-                    } else {
-                        Log.e("tag", "请求失败");
-                    }
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            modelCallback.failure(e);
-                        }
-                    });
-
+                    BaseEntity baseEntity = new Gson().fromJson(response,BaseEntity.class);
+                    modelCallback.success(baseEntity);
                 }
             }
-        }).start();
+
+            @Override
+            public void failure(Throwable error) {
+
+                modelCallback.failure(error);
+            }
+        });
+//        //第一步，创建请求队列
+//        RequestQueue requestQueue = Volley.newRequestQueue(App.getContext());
+//        //第二步构建请求对象,并设置请求参数：手机号和密码
+//        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, UserApi.REG_API, new Response.Listener<String>() {
+//            /**
+//             * 成功的回调
+//             *
+//             * @param response
+//             */
+//            @Override
+//            public void onResponse(String response) {
+//                System.out.println("threadName:"+Thread.currentThread().getName());
+//                //json串，响应体
+//                BaseEntity baseEntity = new Gson().fromJson(response,BaseEntity.class);
+//
+//                modelCallback.success(baseEntity);
+//
+//            }
+//        }, new Response.ErrorListener() {
+//            /**
+//             * 失败的回调
+//             * @param error
+//             */
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                modelCallback.failure(error);
+//            }
+//        }){
+//            /**
+//             * 设置请求参数的方法
+//             * @return
+//             * @throws AuthFailureError
+//             */
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                return params;
+//            }
+//        };
+//
+//        //第三步，把请求对象添加到队列
+//        requestQueue.add(stringRequest);
+
+
 
 
     }
 
-    // 流转  字符串
-    private String io2String(InputStream inputStream) throws IOException {
-        byte[] bytes = new byte[1024];
-        int len = -1;
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        while ((len = inputStream.read(bytes)) != -1) {
-            byteArrayOutputStream.write(bytes, 0, len);
-        }
-        byte[] bytes1 = byteArrayOutputStream.toByteArray();
-        String json = new String(bytes1);
-
-
-        return json;
-    }
 }

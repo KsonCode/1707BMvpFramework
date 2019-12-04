@@ -1,6 +1,7 @@
 package com.laoxu.mvpframework.api;
 
-import com.laoxu.lib_core.base.api.Api;
+
+import com.laoxu.mvpframework.base.api.Api;
 
 /**
  * 用户相关接口配置

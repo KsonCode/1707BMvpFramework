@@ -1,4 +1,4 @@
-package com.laoxu.lib_core.base.mvp;
+package com.laoxu.mvpframework.base.mvp;
 
 /**
  * base数据模型接口

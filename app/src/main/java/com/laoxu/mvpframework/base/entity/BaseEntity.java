@@ -1,4 +1,4 @@
-package com.laoxu.lib_core.base.entity;
+package com.laoxu.mvpframework.base.entity;
 
 /**
  * 实体类基类

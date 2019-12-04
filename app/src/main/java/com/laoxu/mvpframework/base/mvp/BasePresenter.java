@@ -1,6 +1,5 @@
-package com.laoxu.lib_core.base.mvp;
+package com.laoxu.mvpframework.base.mvp;
 
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 /**
@@ -11,13 +10,18 @@ public abstract class BasePresenter<M extends IBaseModel,V extends IBaseView> {
 
     protected M  model;
     private WeakReference<V> weakReference;
-    public BasePresenter(V v){
-
-        weakReference = new WeakReference<>(v);
-
+    public BasePresenter(){
         model = initModel();
-
     }
+
+    /**
+     * 绑定view，初始化view
+     * @param v
+     */
+    public void attach(V v){
+        weakReference = new WeakReference<>(v);
+    }
+
 
     /**
      * 让子类初始化相应的model对象
@@ -30,9 +34,9 @@ public abstract class BasePresenter<M extends IBaseModel,V extends IBaseView> {
      * 解绑，释放view资源，释放的this
      */
     public void detach(){
-
         if (weakReference!=null){
             weakReference.clear();//清空数据
+            weakReference = null;
         }
 
     }

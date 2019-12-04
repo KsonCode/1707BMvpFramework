@@ -1,20 +1,14 @@
 package com.laoxu.mvpframework.presenter.user;
 
-import com.laoxu.lib_core.base.entity.BaseEntity;
-import com.laoxu.lib_core.base.mvp.BasePresenter;
-import com.laoxu.lib_core.base.mvp.IBaseModel;
-import com.laoxu.lib_core.base.mvp.IBaseView;
+import com.laoxu.mvpframework.base.entity.BaseEntity;
+import com.laoxu.mvpframework.base.mvp.BasePresenter;
 import com.laoxu.mvpframework.contract.UserContract;
 import com.laoxu.mvpframework.model.user.UserModel;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class UserPresenter extends BasePresenter<UserModel, UserContract.IView> implements UserContract.IPresenter {
-
-
-    public UserPresenter(UserContract.IView iView) {
-        super(iView);
-    }
 
     @Override
     protected UserModel initModel() {
@@ -22,7 +16,7 @@ public class UserPresenter extends BasePresenter<UserModel, UserContract.IView> 
     }
 
     @Override
-    public void reg(HashMap<String, Object> params) {
+    public void reg(Map<String, String> params) {
 
         model.reg(params, new UserContract.IModel.ModelCallback() {
             @Override
