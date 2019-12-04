@@ -37,6 +37,10 @@ public abstract class BasePresenter<M extends IBaseModel,V extends IBaseView> {
 
     }
 
+    /**
+     * 获取弱引用包装的view对象
+     * @return
+     */
     public V getView(){
         return weakReference.get();//得到弱引用的view 对象
     }
