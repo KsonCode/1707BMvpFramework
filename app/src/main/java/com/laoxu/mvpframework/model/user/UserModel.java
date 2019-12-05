@@ -3,10 +3,9 @@ package com.laoxu.mvpframework.model.user;
 import com.google.gson.Gson;
 
 import com.laoxu.mvpframework.api.UserApi;
-import com.laoxu.mvpframework.app.App;
 import com.laoxu.mvpframework.base.entity.BaseEntity;
 import com.laoxu.mvpframework.contract.UserContract;
-import com.laoxu.mvpframework.network.VolleyUtils;
+import com.laoxu.mvpframework.utils.network.VolleyUtils;
 
 
 import java.util.Map;

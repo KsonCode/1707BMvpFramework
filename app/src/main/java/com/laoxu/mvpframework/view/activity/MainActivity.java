@@ -1,22 +1,16 @@
 package com.laoxu.mvpframework.view.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.laoxu.mvpframework.R;
 import com.laoxu.mvpframework.base.BaseActivity;
 import com.laoxu.mvpframework.base.entity.BaseEntity;
 import com.laoxu.mvpframework.contract.UserContract;
-import com.laoxu.mvpframework.network.VolleyUtils;
+import com.laoxu.mvpframework.utils.network.VolleyUtils;
 import com.laoxu.mvpframework.presenter.user.UserPresenter;
+import com.laoxu.mvpframework.utils.glide.GlideUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +23,7 @@ public class MainActivity extends BaseActivity<UserPresenter> implements UserCon
 
     @Override
     protected void initData() {
-
-
+//        userPresenter = new UserPresenter();
 
     }
 
@@ -39,19 +32,21 @@ public class MainActivity extends BaseActivity<UserPresenter> implements UserCon
 
         glideIv = findViewById(R.id.iv_glide);
 
-        //with：上下文，作用是绑定activity或freament的上下文（生命周期）
-        Glide.with(this).
-                //加载资源：网络，本地资源
-                load("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6fdfdfdfdfdfdfdfdhhy/it/u=2850768982,4202597320&fm=26&gp=0.jpg")
-                .centerCrop()//剧中jian qie
-                .circleCrop()//圆形
+//        //with：上下文，作用是绑定activity或freament的上下文（生命周期）
+//        Glide.with(this).
+//                //加载资源：网络，本地资源
+//                load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575536233682&di=e7a6c593d4f08b9523cc5d10a87809db&imgtype=0&src=http%3A%2F%2Faliyunzixunbucket.oss-cn-beijing.aliyuncs.com%2Fjpg%2F93de9d45e44e1a88e2c4ea48f3e265cd.jpg%3Fx-oss-process%3Dimage%2Fresize%2Cp_100%2Fauto-orient%2C1%2Fquality%2Cq_90%2Fformat%2Cjpg%2Fwatermark%2Cimage_eXVuY2VzaGk%3D%2Ct_100")
+//                .centerCrop()//剧中jian qie
+//                .circleCrop()//圆形
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存策略
-//                .skipMemoryCache(true)//跳过缓存
-                .placeholder(R.mipmap.ic_launcher)//占位图：加载过程中的占位图
-                .error(R.mipmap.ic_launcher)//占位图：加载失败的图
+////                .skipMemoryCache(true)//跳过缓存
+//                .placeholder(R.mipmap.ic_launcher)//占位图：加载过程中的占位图
+//                .error(R.mipmap.ic_launcher)//占位图：加载失败的图
+//                //设置到控件（imageview）
+//                .into(glideIv);
 
-                //设置到控件（imageview）
-                .into(glideIv);
+        GlideUtils.getInstance().showCircleImage(this,"",glideIv);
+//        VolleyUtils.getInstance().requestImage("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=213116030,3323089670&fm=15&gp=0.jpg",glideIv);
 
 
     }
@@ -134,5 +129,8 @@ public class MainActivity extends BaseActivity<UserPresenter> implements UserCon
     protected void onDestroy() {
         super.onDestroy();
         VolleyUtils.getInstance().cacelCalls();
+        if (presenter!=null){
+            presenter.detach();//解绑
+        }
     }
 }

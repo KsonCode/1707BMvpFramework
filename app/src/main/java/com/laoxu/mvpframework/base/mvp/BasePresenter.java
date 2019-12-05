@@ -38,9 +38,7 @@ public abstract class BasePresenter<M extends IBaseModel,V extends IBaseView> {
             weakReference.clear();//清空数据
             weakReference = null;
         }
-
     }
-
     /**
      * 获取弱引用包装的view对象
      * @return
