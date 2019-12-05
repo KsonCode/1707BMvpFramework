@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.laoxu.mvpframework.R;
 import com.laoxu.mvpframework.base.BaseActivity;
 import com.laoxu.mvpframework.base.entity.BaseEntity;
@@ -20,6 +25,8 @@ public class MainActivity extends BaseActivity<UserPresenter> implements UserCon
 
 //    private UserPresenter userPresenter;
 
+    private ImageView glideIv;
+
     @Override
     protected void initData() {
 
@@ -29,6 +36,23 @@ public class MainActivity extends BaseActivity<UserPresenter> implements UserCon
 
     @Override
     protected void initView() {
+
+        glideIv = findViewById(R.id.iv_glide);
+
+        //with：上下文，作用是绑定activity或freament的上下文（生命周期）
+        Glide.with(this).
+                //加载资源：网络，本地资源
+                load("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6fdfdfdfdfdfdfdfdhhy/it/u=2850768982,4202597320&fm=26&gp=0.jpg")
+                .centerCrop()//剧中jian qie
+                .circleCrop()//圆形
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存策略
+//                .skipMemoryCache(true)//跳过缓存
+                .placeholder(R.mipmap.ic_launcher)//占位图：加载过程中的占位图
+                .error(R.mipmap.ic_launcher)//占位图：加载失败的图
+
+                //设置到控件（imageview）
+                .into(glideIv);
+
 
     }
 
@@ -104,5 +128,11 @@ public class MainActivity extends BaseActivity<UserPresenter> implements UserCon
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        VolleyUtils.getInstance().cacelCalls();
     }
 }

@@ -2,6 +2,7 @@ package com.laoxu.mvpframework.network;
 
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -91,7 +92,7 @@ public class VolleyUtils {
     public void doPost(final Map<String, String> params, String url, final VolleyCallback volleyCallback) {
 
         //第二步
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -121,6 +122,21 @@ public class VolleyUtils {
         void success(String response);
 
         void failure(Throwable error);
+    }
+
+
+    /**
+     *
+     */
+    public void cacelCalls(){
+        if (requestQueue!=null){
+            requestQueue.cancelAll(new RequestQueue.RequestFilter() {
+                @Override
+                public boolean apply(Request<?> request) {
+                    return true;
+                }
+            });
+        }
     }
 
 

@@ -37,6 +37,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     protected abstract int bindLayoutId();
 
+    /**
+     * 显示toast
+     * @param msg
+     */
     public void showToast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
