@@ -96,7 +96,7 @@ public class VolleyUtils {
     public void doPost(final Map<String, String> params, String url, final VolleyCallback volleyCallback) {
 
         //第二步
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
